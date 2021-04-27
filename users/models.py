@@ -17,6 +17,10 @@ class User(models.Model):
     password = models.TextField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
 
+# class PollManager(models.Manager):
+#     def create_user(self, **kwargs):
+#         return 
+
 # class UserManager_(models.Manager):
 #     pass
 
