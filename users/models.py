@@ -1,5 +1,9 @@
 from django.db import models
-# from django.contrib.auth.models import User
+import uuid
+from datetime import datetime
+from django.contrib.auth.models import User
+from django.utils.timezone import now
+
 
 # Create your models here.
 
@@ -16,6 +20,8 @@ class User(models.Model):
     email = models.EmailField(max_length=254, unique=True)
     password = models.TextField(default='')
     created_at = models.DateTimeField(auto_now_add=True)
+    api_key = models.UUIDField(default=uuid.uuid4, db_index=True)
+    last_session = models.DateTimeField(default=now)
 
 # class PollManager(models.Manager):
 #     def create_user(self, **kwargs):
