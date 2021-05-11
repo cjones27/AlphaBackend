@@ -1,5 +1,5 @@
 from ninja import Schema
-from datetime import date, datetime
+from datetime import datetime
 
 class AppointmentRegister(Schema):
     datetime: datetime
