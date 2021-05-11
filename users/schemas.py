@@ -20,3 +20,10 @@ class UserOut(Schema):
     email: str
     user_type: int
     api_key: UUID
+
+class LogIn(Schema):
+    email: str
+    password: str
+
+class Message(Schema):
+    message: str

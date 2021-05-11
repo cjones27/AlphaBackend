@@ -19,6 +19,6 @@ from .routers import api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
+    # path('users/', include('users.urls')),
     path("api/", api.urls),
 ]
