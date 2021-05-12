@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'django.contrib.gis',
+    'locations.apps.LocationsConfig',
+    'communications.apps.CommunicationsConfig',
     'appointments.apps.AppointmentsConfig',
     'properties.apps.PropertiesConfig',
     'users.apps.UsersConfig',
