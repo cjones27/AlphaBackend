@@ -1,5 +1,6 @@
 from ninja.security import APIKeyHeader
 from users.models import User
+from ninja.security import HttpBearer
 
 class AnyUserApiKey(APIKeyHeader):
 
@@ -19,3 +20,17 @@ class AnyUserApiKey(APIKeyHeader):
 
             # No return value implies { detail: Unauthorized } respones
             return
+
+class UserAuth(HttpBearer):
+    def authenticate(self, request, token):
+        try:
+            return User.objects.get(api_key = token)
+        except User.DoesNotExist:
+            pass
+
+class AdminAuth(HttpBearer):
+    def authenticate(self, request, token):
+        try:
+            return User.objects.get(api_key = token, user_type = 1)
+        except User.DoesNotExist:
+            pass
