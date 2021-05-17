@@ -1,5 +1,6 @@
 from django.db import models
 # from django.contrib.gis.db import models as geomodels
+from users.models import User
 
 status_length = 200
 
@@ -12,9 +13,7 @@ class Property(models.Model):
     # )
     description = models.TextField()
     status = models.CharField(max_length=status_length)
-    # owner_id = models.ForeignKey(
-    #     owner, on_delete=models.DO_NOTHING, null=True
-    # )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     # points = geomodels.MultiPointField()
     # photos_id = 
     water = models.BooleanField(default=0) 

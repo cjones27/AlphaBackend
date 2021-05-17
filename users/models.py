@@ -22,6 +22,7 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     api_key = models.UUIDField(default=uuid.uuid4, db_index=True)
     last_session = models.DateTimeField(default=now)
+    is_admin = models.BooleanField(default=False)
 
 # class PollManager(models.Manager):
 #     def create_user(self, **kwargs):

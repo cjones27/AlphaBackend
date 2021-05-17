@@ -23,6 +23,13 @@ def create_user(request, user:UserRegister):
     new_user.save()
     return new_user
 
+# Admin
+@router.post("/future/signup_admin", response=UserOut, auth=AdminAuth())
+def create_admin(request, user:UserRegister):
+    new_admin = User.objects.create(**user.dict(), is_admin = 1)
+    new_admin.save()
+    return new_admin
+
 # DELETE Method
 @router.delete("/delete/{user_id}")
 def delete_user(request, user_id:int):
