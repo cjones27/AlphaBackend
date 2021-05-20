@@ -3,4 +3,6 @@ psycopg2-binary>=2.8
 djangorestframework
 django-ninja
 django-heroku
+gunicorn
+gevent
 # GDAL
