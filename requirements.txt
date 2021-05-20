@@ -6,3 +6,4 @@ django-ninja
 gevent
 django-heroku
 gunicorn
+python-dotenv
