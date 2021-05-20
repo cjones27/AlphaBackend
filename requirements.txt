@@ -5,3 +5,4 @@ django-ninja
 # GDAL
 gevent
 django-heroku
+gunicorn
