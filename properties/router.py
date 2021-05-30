@@ -10,7 +10,7 @@ from alphabackend.security import AdminAuth
 router = Router()
 
 # GET Methods
-@router.get("", response=List[PropertyOut], auth=AdminAuth())
+@router.get("", response=List[PropertyOut])#,auth=AdminAuth())
 def get_properties(request):
     return Property.objects.all()
 

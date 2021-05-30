@@ -11,7 +11,7 @@ from users.models import User
 router = Router()
 
 # GET Methods
-@router.get("/messages", response=List[MessageOut], auth=AdminAuth)
+@router.get("/messages", response=List[MessageOut])#, auth=AdminAuth)
 def get_messages(request):
     return Message.objects.all()
 
