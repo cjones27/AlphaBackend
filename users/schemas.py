@@ -19,6 +19,11 @@ class UserOut(Schema):
     user_type: int
     api_key: UUID
 
+class UserOutPublic(Schema):
+    id: int
+    first_name: str
+    last_name: str
+
 class LogIn(Schema):
     email: str
     password: str

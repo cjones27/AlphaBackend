@@ -1,6 +1,6 @@
 from ninja import Schema
 from datetime import date
-from users.schemas import UserOut
+from users.schemas import UserOutPublic
 
 class PropertyOut(Schema):
     id: int
@@ -8,7 +8,7 @@ class PropertyOut(Schema):
     price: int
     description: str
     status: str
-    user: UserOut
+    user: UserOutPublic
     water: bool
     electricity: bool
     sewer: bool

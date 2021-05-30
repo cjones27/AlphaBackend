@@ -1,12 +1,12 @@
 from ninja import Schema
 from datetime import datetime
 from properties.schemas import PropertyOut
-from users.schemas import UserOut
+from users.schemas import UserOutPublic
 
 class MessageOut(Schema):
     id: int
-    sent_by: UserOut
-    sent_to: UserOut
+    sent_by: UserOutPublic
+    sent_to: UserOutPublic
     timestamp: datetime
     content: str
     property: PropertyOut
