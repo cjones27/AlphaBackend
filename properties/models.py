@@ -7,11 +7,15 @@ status_length = 200
 # Create your models here.
 class Property(models.Model):
     # coordinates = geomodels.PointField()
+    title = models.CharField(max_length=status_length)
     price = models.IntegerField(default=0)
     # commune_id = models.ForeignKey(
     #     communes, on_delete=models.DO_NOTHING, null=True
     # )
     description = models.TextField()
+    address = models.TextField()
+    area = models.FloatField()
+    contact = models.CharField(max_length=status_length)
     status = models.CharField(max_length=status_length)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     # points = geomodels.MultiPointField()

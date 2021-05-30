@@ -8,7 +8,7 @@ from alphabackend.security import AdminAuth
 router = Router()
 
 # GET Methods
-@router.get("", response=List[UserRegister])#,auth=AdminAuth())
+@router.get("", response=List[UserRegister],auth=AdminAuth())
 def get_users(request):
     return User.objects.all()
 

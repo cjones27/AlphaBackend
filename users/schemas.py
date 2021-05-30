@@ -3,7 +3,6 @@ from datetime import date
 from uuid import UUID
 
 class UserRegister(Schema):
-    # Lo que entra a la request
     first_name: str 
     last_name: str
     user_type: int
@@ -13,7 +12,6 @@ class UserRegister(Schema):
 
 
 class UserOut(Schema):
-    # Lo que se entrega en la request
     id: int
     first_name: str
     last_name: str

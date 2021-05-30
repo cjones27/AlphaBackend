@@ -12,14 +12,14 @@ from users.schemas import Message as Msg
 router = Router()
 
 # GET Methods
-@router.get("/messages", response=List[MessageOut])#, auth=AdminAuth)
+@router.get("/messages", response=List[MessageOut], auth=AdminAuth())
 def get_messages(request):
     return Message.objects.all()
 
 @router.get("/user/messages", response=List[MessageOut])
 def get_user_messages(request):
     user = request.auth
-    messages = Message.objects.filter(sent_by_id=user.id) | Message.objects.filter(sent_to_id=user.id)
+    messages = (Message.objects.filter(sent_by_id=user.id) | Message.objects.filter(sent_to_id=user.id)).distinct("property_id")
     return messages
 
 @router.get("/user/messages/{property_id}", response={200:List[MessageOut], 401:Msg})
