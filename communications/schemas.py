@@ -2,22 +2,24 @@ from ninja import Schema
 from datetime import datetime
 
 class MessageOut(Schema):
-    #sent_by_id :
+    id: int
+    sent_by_id: int
+    sent_to_id: int
     timestamp: datetime
     content: str
     message_type: str
-    #property_id
+    property_id: int
     status: str
 
 class MessageIn(Schema):
-    #received_by_id : 
+    sent_by_id: int
+    sent_to_id: int
     content: str
     message_type: str
-    #property_id
-    #status: str
+    property_id: int
+    status: str
 
 class NotificationIn(Schema):
-    #sent_by_id :
     timestamp: datetime
     content: str
     notification_type: str
