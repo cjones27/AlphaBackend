@@ -33,11 +33,12 @@ def get_user_messages_by_property(request, property_id:int):
     return 401, {"message": "Not allowed"}
 
 
-@router.get("/user/chats/messages/{property_id}", response={200:List[MessageOut], 401:Msg})
-def get_user_messages_by_property(request, property_id:int):
+@router.get("/user/chats/messages/{property_id}/{contact_id}", response={200:List[MessageOut], 401:Msg})
+def get_user_messages_by_property(request, property_id:int, contact_id:int):
     user = request.auth
     property = get_object_or_404(Property, id=property_id)
-    messages = Message.objects.filter(Q(sent_by=user) | Q(sent_to=user), property_id=property_id)
+    contact = User.objects.get(pk=contact_id)
+    messages = Message.objects.filter(Q(sent_by=user) | Q(sent_to=user) , Q(sent_to=contact) | Q(sent_by=contact), property_id=property_id)
     return 200, messages
 
 # POST Methods
