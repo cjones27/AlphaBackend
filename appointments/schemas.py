@@ -1,6 +1,8 @@
 from ninja import Schema
 from datetime import datetime
 from users.schemas import UserOutPublic
+from properties.schemas import PropertyOut
+
 
 class AppointmentIn(Schema):
     datetime: datetime
@@ -13,7 +15,7 @@ class AppointmentOut(Schema):
     datetime: datetime
     status: str
     user: UserOutPublic
-    property_id: int
+    property: PropertyOut
 
 class AppointmentOutPublic(Schema):
     id: int
