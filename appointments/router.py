@@ -11,7 +11,7 @@ from users.models import User
 router = Router()
 
 # GET Methods
-@router.get("", response=List[AppointmentOut], auth=AdminAuth())
+@router.get("", response=List[AppointmentOut])#, auth=AdminAuth())
 def get_appointments(request):
     return Appointment.objects.all()
 
