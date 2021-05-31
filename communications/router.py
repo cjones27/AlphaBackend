@@ -3,6 +3,7 @@ from typing import List
 from communications.schemas import MessageIn, MessageOut, NotificationIn, NotificationOut
 from communications.models import Message, Notification
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from communications.schemas import MessageOut, MessageIn
 from alphabackend.security import AdminAuth
 from properties.models import Property
@@ -30,6 +31,14 @@ def get_user_messages_by_property(request, property_id:int):
         messages = Message.objects.filter(property_id=property_id)
         return 200, messages
     return 401, {"message": "Not allowed"}
+
+
+@router.get("/user/chats/messages/{property_id}", response={200:List[MessageOut], 401:Msg})
+def get_user_messages_by_property(request, property_id:int):
+    user = request.auth
+    property = get_object_or_404(Property, id=property_id)
+    messages = Message.objects.filter(Q(sent_by=user) | Q(sent_to=user), property_id=property_id)
+    return 200, messages
 
 # POST Methods
 @router.post("/messages/create", response={200:MessageOut, 401:Msg})
