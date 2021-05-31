@@ -23,6 +23,8 @@ class UserOutPublic(Schema):
     id: int
     first_name: str
     last_name: str
+    email: str
+    user_type: int
 
 class LogIn(Schema):
     email: str

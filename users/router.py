@@ -1,6 +1,6 @@
 from ninja import Router
 from typing import List
-from users.schemas import UserRegister, UserOut, LogIn, Message
+from users.schemas import UserOutPublic, UserRegister, UserOut, LogIn, Message
 from users.models import User
 from django.shortcuts import get_object_or_404
 from alphabackend.security import AdminAuth
@@ -8,11 +8,11 @@ from alphabackend.security import AdminAuth
 router = Router()
 
 # GET Methods
-@router.get("", response=List[UserRegister],auth=AdminAuth())
+@router.get("", response=List[UserOutPublic])#,auth=AdminAuth())
 def get_users(request):
     return User.objects.all()
 
-@router.get("/{user_id}", response=UserRegister)
+@router.get("/{user_id}", response=UserOutPublic)
 def get_user(request, user_id:int):
     return get_object_or_404(User, id=user_id)
 
