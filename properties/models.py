@@ -1,12 +1,12 @@
 from django.db import models
-# from django.contrib.gis.db import models as geomodels
+from django.contrib.postgres.fields import ArrayField
 from users.models import User
 
 status_length = 200
 
 # Create your models here.
 class Property(models.Model):
-    # coordinates = geomodels.PointField()
+    coordinates = ArrayField(ArrayField(models.FloatField(), size=2))
     title = models.CharField(max_length=status_length)
     price = models.IntegerField(default=0)
     # commune_id = models.ForeignKey(
@@ -18,8 +18,7 @@ class Property(models.Model):
     contact = models.CharField(max_length=status_length)
     status = models.CharField(max_length=status_length)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    # points = geomodels.MultiPointField()
-    # photos_id = 
+    photos_urls = ArrayField(models.TextField())
     water = models.BooleanField(default=0) 
     electricity = models.BooleanField(default=0)
     sewer = models.BooleanField(default=0)

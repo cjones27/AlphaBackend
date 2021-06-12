@@ -1,6 +1,8 @@
+from django.contrib.postgres.fields import array
 from ninja import Schema
 from datetime import date
 from users.schemas import UserOutPublic
+from typing import List
 
 class PropertyOut(Schema):
     id: int
@@ -15,6 +17,8 @@ class PropertyOut(Schema):
     area: float
     contact: str
     address: str
+    photos_urls: List[str]
+    coordinates: List[List[float]]
 
 class PropertyRegister(Schema):
     title: str
@@ -27,3 +31,5 @@ class PropertyRegister(Schema):
     water: bool
     electricity: bool
     sewer: bool
+    photos_urls: List[str]
+    coordinates: List[List[float]]
