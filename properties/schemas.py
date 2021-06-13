@@ -1,13 +1,14 @@
-from django.contrib.postgres.fields import array
 from ninja import Schema
 from datetime import date
 from users.schemas import UserOutPublic
 from typing import List
+from locations.schemas import CommuneOut
 
 class PropertyOut(Schema):
     id: int
     title: str
     price: int
+    commune: CommuneOut
     description: str
     status: str
     user: UserOutPublic
@@ -25,6 +26,7 @@ class PropertyRegister(Schema):
     price: int
     description: str
     status: str
+    commune: int
     area: float
     contact: str
     address: str

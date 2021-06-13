@@ -1,3 +1,4 @@
+from locations.models import Commune
 from users.schemas import Message
 from ninja import Router
 from typing import List
@@ -18,6 +19,10 @@ def get_properties(request):
 def get_property(request, property_id:int):
     return get_object_or_404(Property, id=property_id)
 
+@router.get("/commune/{commune_id}", response=List[PropertyOut])
+def get_property_by_commune_id(request, commune_id:int):
+    return Property.objects.all().filter(commune_id=commune_id)
+
 
 # POST Methods
 @router.post("/create/{user_id}", response={200:PropertyOut, 401:Message})
@@ -25,7 +30,12 @@ def create_property(request, property:PropertyRegister, user_id:int):
     user = request.auth
     if user.id == user_id or user.is_admin:
         print(f"User id {user.id}")
-        new_property = Property.objects.create(**property.dict(), user=user)
+        commune = get_object_or_404(Commune, id=property.dict()["commune"])
+        new_property_dict = property.dict().copy()
+        new_property_dict["commune"] = commune
+        print(f"Property ={property.dict()}")
+        print(f"Property ={new_property_dict}")
+        new_property = Property.objects.create(**new_property_dict, user=user)
         new_property.save()
         return 200, new_property
 

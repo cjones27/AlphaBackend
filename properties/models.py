@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from users.models import User
+from locations.models import Commune
 
 status_length = 200
 
@@ -9,9 +10,7 @@ class Property(models.Model):
     coordinates = ArrayField(ArrayField(models.FloatField(), size=2))
     title = models.CharField(max_length=status_length)
     price = models.IntegerField(default=0)
-    # commune_id = models.ForeignKey(
-    #     communes, on_delete=models.DO_NOTHING, null=True
-    # )
+    commune = models.ForeignKey(Commune, on_delete=models.DO_NOTHING, null=False)
     description = models.TextField()
     address = models.TextField()
     area = models.FloatField()

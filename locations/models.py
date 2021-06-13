@@ -6,4 +6,4 @@ class Region(models.Model):
 
 class Commune(models.Model):
     name = models.CharField(max_length=1000)
-    region_id = models.ForeignKey(Region, on_delete=models.CASCADE, null=False)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=False)

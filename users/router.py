@@ -1,9 +1,11 @@
+from locations.schemas import CommuneOut
 from ninja import Router
 from typing import List
 from users.schemas import UserOutPublic, UserRegister, UserOut, LogIn, Message
 from users.models import User
 from django.shortcuts import get_object_or_404
 from alphabackend.security import AdminAuth
+from locations.models import Commune
 
 router = Router()
 
@@ -53,3 +55,7 @@ def login_user(request, payload: LogIn):
         return 200, user
 
     return 404, {"message": "Incorrect credentials"}
+
+@router.get("/communes/all", response=List[CommuneOut])#,auth=AdminAuth())
+def get_communes(request):
+    return Commune.objects.all()
