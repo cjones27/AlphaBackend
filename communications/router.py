@@ -13,9 +13,14 @@ from users.schemas import Message as Msg
 router = Router()
 
 # GET Methods
-@router.get("/messages", response=List[MessageOut], auth=AdminAuth())
-def get_messages(request):
-    return Message.objects.all()
+@router.get("/contacts/messages", response={200:List[MessageOut], 401:Msg})
+def get_contacts_messages(request):
+    user = request.auth
+    if user.is_admin:
+        return 200, Message.objects.all()
+    else:
+        return 401 , {"message":"Unauthorized"}
+
 
 @router.get("/user/messages", response=List[MessageOut])
 def get_user_messages(request):
@@ -27,14 +32,14 @@ def get_user_messages(request):
 def get_user_messages_by_property(request, property_id:int):
     user = request.auth
     property = get_object_or_404(Property, id=property_id)
-    if user.id == property.user_id:
+    if ((user.id == property.user_id) or user.is_admin):
         messages = Message.objects.filter(property_id=property_id)
         return 200, messages
-    return 401, {"message": "Not allowed"}
+    return 401, {"message": "Unauthorized"}
 
 
 @router.get("/user/chats/messages/{property_id}/{contact_id}", response={200:List[MessageOut], 401:Msg})
-def get_user_messages_by_property(request, property_id:int, contact_id:int):
+def get_user_messages_by_property_and_contacts(request, property_id:int, contact_id:int):
     user = request.auth
     property = get_object_or_404(Property, id=property_id)
     contact = User.objects.get(pk=contact_id)
@@ -46,7 +51,7 @@ def get_user_messages_by_property(request, property_id:int, contact_id:int):
 def create_message(request, message:MessageIn):
     user = request.auth
     property = get_object_or_404(Property, id=message.property_id)
-    if user.id == message.sent_by_id:
+    if ((user.id == message.sent_by_id) or user.is_admin):
         new_message = Message.objects.create(**message.dict())
         new_message.save()
         return 200, new_message
@@ -57,7 +62,7 @@ def create_message(request, message:MessageIn):
 def delete_user_messages(request, message_id:int):
     user = request.auth
     message = get_object_or_404(Message, id=message_id)
-    if message.sent_by_id == user.id:
+    if ((message.sent_by_id == user.id) or user.is_admin):
         message.delete()
         return 200, {"message": "Succesfully deleted"}
     return 401, {"message": "Not allowed"}
