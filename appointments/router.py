@@ -11,20 +11,19 @@ from users.models import User
 router = Router()
 
 # GET Methods
-@router.get("", response=List[AppointmentOut])#, auth=AdminAuth())
+@router.get("", response={200: List[AppointmentOut], 401: Message})
 def get_appointments(request):
-    return Appointment.objects.all()
+    user = request.auth
+    if user.is_admin:
+        return 200, Appointment.objects.all()
+    else:
+        return 401 , {"message":"Unauthorized"}
+    
 
 @router.get("/{appointment_id}", response={200:AppointmentOutPublic, 401:Message})
 def get_appointment(request, appointment_id:int):
-    # user = request.auth
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    # property = get_object_or_404(Property, id=appointment.property_id)
-    # owner = get_object_or_404(User, id=property.user_id)
-    # if user.id == appointment.user_id or user.is_admin or user.id == owner.id:
     return 200, appointment
-
-    # return 401, {"message": "Not allowed"}
 
 @router.get("/property/{property_id}", response={200:List[AppointmentOutPublic], 401:Message})
 def get_property_appointments(request, property_id:int):
@@ -38,17 +37,17 @@ def get_property_appointments_by_owner(request, property_id:int):
     property = get_object_or_404(Property, id=property_id)
     appointments = Appointment.objects.filter(property_id=property.id)
     owner = get_object_or_404(User, id=property.user_id)
-    if user.is_admin or user.id == owner.id:
+    if ((user.id == owner.id) or user.is_admin):
         return 200, appointments
-    return 401, {"message": "Not allowed"}
+    return 401, {"message": "Unauthorized"}
 
 @router.get("/user/{user_id}", response={200:List[AppointmentOut], 401:Message})
 def get_user_appointments(request, user_id:int):
     user = request.auth
-    appointments = Appointment.objects.filter(user_id=user.id)
-    if user.id == user_id or user.is_admin:
+    appointments = Appointment.objects.filter(user_id=user_id)
+    if ((user.id == user_id) or user.is_admin):
         return 200, appointments
-    return 401, {"message": "Not allowed"}
+    return 401, {"message": "Unauthorized"}
 
 # POST Methods
 @router.post("/future/create", response={200:AppointmentOut, 401:Message})
@@ -59,7 +58,7 @@ def create_appointment(request, appointment:AppointmentIn):
         new_appointment = Appointment.objects.create(**appointment.dict())
         new_appointment.save()
         return 200, new_appointment
-    return 401, {"message": "Not allowed"}
+    return 401, {"message": "Unauthorized"}
 
 # DELETE Method
 @router.delete("/delete/{appointment_id}", response={200:Message, 401:Message})
@@ -72,4 +71,4 @@ def delete_appointment(request, appointment_id:int):
         appointment.delete()
         return 200, {"message":"Appoinment succesfully deleted"}
 
-    return 401, {"message": "Not allowed"}
+    return 401, {"message": "Unauthorized"}
