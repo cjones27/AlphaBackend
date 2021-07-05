@@ -7,6 +7,7 @@ from properties.models import Property
 from django.shortcuts import get_object_or_404
 from users.models import User
 from alphabackend.security import AdminAuth
+from locations.models import Commune
 
 router = Router()
 
@@ -57,7 +58,12 @@ def update_property(request, property_id:int, property:PropertyRegister):
     edited_property = get_object_or_404(Property, id=property_id)
     if ((user.id == edited_property.user_id) or user.is_admin):
         for att , value in property.dict().items():
-            setattr(edited_property, att, value)
+            if att == "commune":
+                print(att, value)
+                commune = get_object_or_404(Commune, id=value)
+                setattr(edited_property, att, commune)
+            else:
+                setattr(edited_property, att, value)
         edited_property.save()
         return 200, edited_property
 

@@ -19,7 +19,10 @@ class PropertyOut(Schema):
     contact: str
     address: str
     photos_urls: List[str]
-    coordinates: List[List[float]]
+    coordinate1: List[float]
+    coordinate2: List[float]
+    coordinate3: List[float]
+    coordinate4: List[float]
 
 class PropertyRegister(Schema):
     title: str
@@ -34,4 +37,7 @@ class PropertyRegister(Schema):
     electricity: bool
     sewer: bool
     photos_urls: List[str]
-    coordinates: List[List[float]]
+    coordinate1: List[float]
+    coordinate2: List[float]
+    coordinate3: List[float]
+    coordinate4: List[float]

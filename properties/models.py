@@ -7,7 +7,6 @@ status_length = 200
 
 # Create your models here.
 class Property(models.Model):
-    coordinates = ArrayField(ArrayField(models.FloatField(), size=2))
     title = models.CharField(max_length=status_length)
     price = models.IntegerField(default=0)
     commune = models.ForeignKey(Commune, on_delete=models.DO_NOTHING, null=False)
@@ -21,3 +20,7 @@ class Property(models.Model):
     water = models.BooleanField(default=0) 
     electricity = models.BooleanField(default=0)
     sewer = models.BooleanField(default=0)
+    coordinate1 = ArrayField(models.FloatField(), size=2)
+    coordinate2 = ArrayField(models.FloatField(), size=2)
+    coordinate3 = ArrayField(models.FloatField(), size=2)
+    coordinate4 = ArrayField(models.FloatField(), size=2)
